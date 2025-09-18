@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://dbs8gldufc6jh"]
+
+[ext_resource type="Texture2D" uid="uid://c8hlaysowvjr" path="res://icon.svg" id="1_2pqqt"]
+[ext_resource type="Script" uid="uid://b87fau2t2fy6c" path="res://fire.gd" id="1_5ltu8"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5ltu8"]
+radius = 15.0
+
+[node name="Fire" type="Node2D"]
+script = ExtResource("1_5ltu8")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 0.28125, 0, 1)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_2pqqt")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_5ltu8")

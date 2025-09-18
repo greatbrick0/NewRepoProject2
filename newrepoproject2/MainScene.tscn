@@ -1,3 +1,59 @@
-[gd_scene format=3 uid="uid://cc0vk400l5mfe"]
+[gd_scene load_steps=8 format=3 uid="uid://cc0vk400l5mfe"]
+
+[ext_resource type="PackedScene" uid="uid://bk5nj6tghf8ae" path="res://player.tscn" id="1_3mqji"]
+[ext_resource type="Texture2D" uid="uid://c8hlaysowvjr" path="res://icon.svg" id="1_rpqi1"]
+[ext_resource type="PackedScene" uid="uid://dg8b2572s7nxn" path="res://enemy.tscn" id="2_x4av3"]
+
+[sub_resource type="Curve" id="Curve_uxrcv"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.471591, 0.629214), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3mqji"]
+size = Vector2(40, 40)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_3mqji"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_x4av3"]
+width = 40
+height = 40
+noise = SubResource("FastNoiseLite_3mqji")
 
 [node name="MainScene" type="Node2D"]
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+amount = 20
+texture = ExtResource("1_rpqi1")
+emission_shape = 3
+emission_rect_extents = Vector2(1000, 100)
+gravity = Vector2(0, 0)
+scale_amount_min = 0.1
+scale_amount_max = 0.2
+scale_amount_curve = SubResource("Curve_uxrcv")
+
+[node name="Player" parent="." instance=ExtResource("1_3mqji")]
+speed = 120.0
+gravity = 150.0
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+
+[node name="floor" type="Node2D" parent="."]
+position = Vector2(0, 100)
+scale = Vector2(50, 1)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="floor"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="floor/StaticBody2D"]
+shape = SubResource("RectangleShape2D_3mqji")
+
+[node name="ColorRect" type="ColorRect" parent="floor"]
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+
+[node name="Sprite2D" type="Sprite2D" parent="floor"]
+texture = SubResource("NoiseTexture2D_x4av3")
+
+[node name="enemy" parent="." instance=ExtResource("2_x4av3")]
+position = Vector2(349, 10)
+gravity = 180.0
